@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 
 namespace StudentManagementMVC.Controllers
 {
@@ -13,10 +15,20 @@ namespace StudentManagementMVC.Controllers
                     ViewBag.ErrorMessage = "404 Page Not Found";
                     break;
 
-                case 500:
-                    ViewBag.ErrorMessage = "Internal Server Error";
+                case 400:
+                    ViewBag.ErrorMessage = "Bad Request";
                     break;
             }
+            return View();
+        }
+
+        [Route("StatusCodeError")]
+        [AllowAnonymous]
+        public IActionResult ServerError()
+        {
+            var exceptionDetails = HttpContext.Features.Get<IExceptionHandlerFeature>();
+            ;
+
             return View();
         }
     }
